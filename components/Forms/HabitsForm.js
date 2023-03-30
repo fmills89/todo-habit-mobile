@@ -42,14 +42,6 @@ const HabitsForm = () => {
     }
   };
 
-  const deleteHabit = async (id) => {
-    if (id === undefined) {
-      alert("Habit ID cannot be found!");
-    } else {
-      await deleteDoc(doc(db, "habits", id));
-    }
-  };
-
   useEffect(() => {
     const q = query(collection(db, "habits"));
     const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
