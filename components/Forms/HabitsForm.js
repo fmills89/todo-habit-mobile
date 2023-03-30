@@ -17,6 +17,7 @@ import {
   query,
   onSnapshot,
   getDocs,
+  addDoc,
 } from "firebase/firestore";
 
 const HabitsForm = () => {
@@ -27,6 +28,18 @@ const HabitsForm = () => {
   function changeHabitHandler(enteredText) {
     setInput(enteredText);
   }
+
+  const addHabitHandler = async () => {
+    if (input === "") {
+      return alert("Please enter a valid habit!");
+    } else {
+      await addDoc(collection(db, "habits"), {
+        text: input,
+        completed: false,
+      });
+      setInput("");
+    }
+  };
 
   useEffect(() => {
     const q = query(collection(db, "habits"));
@@ -51,7 +64,7 @@ const HabitsForm = () => {
       />
       <View style={styles.buttonContainer}>
         <View style={styles.button}>
-          <Button title="Add Habit" />
+          <Button title="Add Habit" onPress={addHabitHandler} />
         </View>
       </View>
       <View style={styles.habitContainer}>

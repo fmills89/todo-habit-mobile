@@ -4,10 +4,12 @@ import HabitsForm from "./components/Forms/HabitsForm";
 
 export default function App() {
   return (
-    <View style={styles.container}>
+    <>
       <StatusBar style="auto" />
-      <HabitsForm />
-    </View>
+      <View style={styles.container}>
+        <HabitsForm />
+      </View>
+    </>
   );
 }
 

@@ -4,7 +4,6 @@ import { Colors } from "../../constants/Colors";
 
 const HabitsList = ({ habit, toggleComplete, deleteHabit }) => {
   return (
-    // <View style={style.listContainer}>
     <View style={style.habitItem}>
       <Pressable
         android_ripple={{ color: "#210644" }}
@@ -13,7 +12,6 @@ const HabitsList = ({ habit, toggleComplete, deleteHabit }) => {
         <Text style={style.habitText}>{habit}</Text>
       </Pressable>
     </View>
-    // </View>
   );
 };
 
