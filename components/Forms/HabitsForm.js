@@ -18,6 +18,7 @@ import {
   onSnapshot,
   getDocs,
   addDoc,
+  deleteDoc,
 } from "firebase/firestore";
 
 const HabitsForm = () => {
@@ -38,6 +39,14 @@ const HabitsForm = () => {
         completed: false,
       });
       setInput("");
+    }
+  };
+
+  const deleteHabit = async (id) => {
+    if (id === undefined) {
+      alert("Habit ID cannot be found!");
+    } else {
+      await deleteDoc(doc(db, "habits", id));
     }
   };
 

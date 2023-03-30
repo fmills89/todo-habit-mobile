@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB_XLsBkW8OsFunYXM_8ujV4yENheOuLhY",
+  apiKey: `${process.env.REACT_APP_API_KEY}`,
   authDomain: "todo-habits-app.firebaseapp.com",
   projectId: "todo-habits-app",
   storageBucket: "todo-habits-app.appspot.com",
