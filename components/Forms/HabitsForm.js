@@ -7,18 +7,38 @@ import {
   Button,
   FlatList,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Colors } from "../../constants/Colors";
 import HabitsList from "../Lists/HabitsList";
+import { db } from "../../firebaseConfig";
+import {
+  doc,
+  collection,
+  query,
+  onSnapshot,
+  getDocs,
+} from "firebase/firestore";
 
 const HabitsForm = () => {
-  const [habits, setHabits] = useState(["Test", "Test2"]);
+  const [habits, setHabits] = useState([]);
   const [input, setInput] = useState("");
+  console.log(habits);
 
   function changeHabitHandler(enteredText) {
     setInput(enteredText);
   }
-  console.log(input);
+
+  useEffect(() => {
+    const q = query(collection(db, "habits"));
+    const unsubscribe = onSnapshot(q, (QuerySnapshot) => {
+      const habitsArr = [];
+      QuerySnapshot.forEach((doc) => {
+        habitsArr.push({ ...doc.data(), id: doc.id });
+      });
+      setHabits(habitsArr);
+    });
+    return () => unsubscribe();
+  }, []);
 
   return (
     <View style={styles.inputContainer}>
@@ -34,16 +54,20 @@ const HabitsForm = () => {
           <Button title="Add Habit" />
         </View>
       </View>
-      <FlatList
-        data={habits}
-        renderItem={(itemData) => {
-          return <HabitsList text={itemData.item.text} id={itemData.item.id} />;
-        }}
-        keyExtractor={(item, index) => {
-          return item.id;
-        }}
-        alwaysBounceVertical={false}
-      />
+      <View style={styles.habitContainer}>
+        <FlatList
+          data={habits}
+          renderItem={(itemData) => {
+            return (
+              <HabitsList habit={itemData.item.text} id={itemData.item.id} />
+            );
+          }}
+          keyExtractor={(item, index) => {
+            return item.id;
+          }}
+          alwaysBounceVertical={false}
+        />
+      </View>
     </View>
   );
 };
@@ -83,5 +107,8 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     paddingBottom: 15,
+  },
+  habitContainer: {
+    flex: 4,
   },
 });
