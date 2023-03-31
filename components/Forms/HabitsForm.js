@@ -124,5 +124,6 @@ const styles = StyleSheet.create({
   },
   habitContainer: {
     flex: 4,
+    width: "100%",
   },
 });
