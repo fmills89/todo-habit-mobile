@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import { db } from "../../firebaseConfig";
-import { deleteDoc, doc } from "firebase/firestore";
+import { deleteDoc, doc, updateDoc } from "firebase/firestore";
 import { Colors } from "../../constants/Colors";
 import TrashButton from "../UI/TrashButton";
 
-const HabitsList = ({ habit, id, toggleComplete }) => {
+const HabitsList = ({ habit, id, completed }) => {
   const deleteHabit = async (id) => {
     console.log(id);
     if (id === undefined) {
@@ -15,13 +15,27 @@ const HabitsList = ({ habit, id, toggleComplete }) => {
     }
   };
 
+  const toggleComplete = async (id) => {
+    try {
+      console.log(id);
+      await updateDoc(doc(db, "habits", id), {
+        completed: !habit.completed,
+      });
+    } catch (error) {
+      alert("Error updating habit:", error);
+    }
+  };
+
   return (
     <View style={style.habitItem}>
       <Pressable
         android_ripple={{ color: "#210644" }}
         style={({ pressed }) => pressed && style.pressedItem}
+        onPress={() => toggleComplete(id)}
       >
-        <Text style={style.habitText}>{habit}</Text>
+        <Text style={completed ? style.textComplete : style.habitText}>
+          {habit}
+        </Text>
       </Pressable>
       <TrashButton deleteItem={() => deleteHabit(id)} />
     </View>
@@ -45,5 +59,10 @@ const style = StyleSheet.create({
   habitText: {
     color: "white",
     padding: 8,
+  },
+  textComplete: {
+    color: "white",
+    padding: 8,
+    textDecorationLine: "line-through",
   },
 });

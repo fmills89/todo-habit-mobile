@@ -24,7 +24,7 @@ import {
 const HabitsForm = () => {
   const [habits, setHabits] = useState([]);
   const [input, setInput] = useState("");
-  console.log(habits);
+  // console.log(habits);
 
   function changeHabitHandler(enteredText) {
     setInput(enteredText);
@@ -73,7 +73,12 @@ const HabitsForm = () => {
           data={habits}
           renderItem={(itemData) => {
             return (
-              <HabitsList habit={itemData.item.text} id={itemData.item.id} />
+              <HabitsList
+                habit={itemData.item.text}
+                id={itemData.item.id}
+                completed={itemData.item.completed}
+                toggleComplete={itemData.item.id}
+              />
             );
           }}
           keyExtractor={(item, index) => {
